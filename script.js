@@ -29,7 +29,7 @@ if (rain) {
 }
 
 function addCalendarMonths(date, count) {
-  // Clamp to the last valid day instead of allowing month rollover.
+  // Clamp to the last valid day instead of allowing Date.setMonth rollover.
   const result = new Date(date);
   const day = result.getDate();
   result.setDate(1);
@@ -40,17 +40,20 @@ function addCalendarMonths(date, count) {
 }
 
 function updateCounter() {
-  // 27 August 2026, 4:21 PM, using the visitor's local time.
+  // Start: 27 August 2026, 4:21 PM, in the visitor's local time.
   const start = new Date(2026, 7, 27, 16, 21, 0);
   const now = new Date();
+
   const monthsEl = document.querySelector('#months');
   const daysEl = document.querySelector('#days');
+  const hoursEl = document.querySelector('#hours');
   const minutesEl = document.querySelector('#minutes');
-  if (!monthsEl || !daysEl || !minutesEl) return;
+  if (!monthsEl || !daysEl || !hoursEl || !minutesEl) return;
 
   if (now < start) {
     monthsEl.textContent = '0';
     daysEl.textContent = '0';
+    hoursEl.textContent = '0';
     minutesEl.textContent = '0';
     return;
   }
@@ -60,14 +63,23 @@ function updateCounter() {
   let anchor = addCalendarMonths(start, months);
 
   if (anchor > now) {
-    months--;
+    months -= 1;
     anchor = addCalendarMonths(start, months);
   }
 
+  // Calculate the remaining time after full calendar months.
+  let remainingMs = now - anchor;
+  const days = Math.floor(remainingMs / 86400000);
+  remainingMs -= days * 86400000;
+  const hours = Math.floor(remainingMs / 3600000);
+  remainingMs -= hours * 3600000;
+  const minutes = Math.floor(remainingMs / 60000);
+
   monthsEl.textContent = months;
-  daysEl.textContent = Math.floor((now - anchor) / 86400000);
-  minutesEl.textContent = Math.floor((now - anchor) / 60000) % 60;
+  daysEl.textContent = days;
+  hoursEl.textContent = hours;
+  minutesEl.textContent = minutes;
 }
 
 updateCounter();
-setInterval(updateCounter, 60000);
+setInterval(updateCounter, 1000);
