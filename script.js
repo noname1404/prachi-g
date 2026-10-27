@@ -28,37 +28,45 @@ if (rain) {
   }
 }
 
+function addCalendarMonths(date, count) {
+  // Clamp to the last valid day instead of allowing month rollover.
+  const result = new Date(date);
+  const day = result.getDate();
+  result.setDate(1);
+  result.setMonth(result.getMonth() + count);
+  const lastDay = new Date(result.getFullYear(), result.getMonth() + 1, 0).getDate();
+  result.setDate(Math.min(day, lastDay));
+  return result;
+}
+
 function updateCounter() {
-  // Local device time: 27 August 2026, 4:21 PM.
+  // 27 August 2026, 4:21 PM, using the visitor's local time.
   const start = new Date(2026, 7, 27, 16, 21, 0);
   const now = new Date();
+  const monthsEl = document.querySelector('#months');
+  const daysEl = document.querySelector('#days');
+  const minutesEl = document.querySelector('#minutes');
+  if (!monthsEl || !daysEl || !minutesEl) return;
 
   if (now < start) {
-    document.querySelector('#months').textContent = '0';
-    document.querySelector('#days').textContent = '0';
-    document.querySelector('#minutes').textContent = '0';
+    monthsEl.textContent = '0';
+    daysEl.textContent = '0';
+    minutesEl.textContent = '0';
     return;
   }
 
-  let months =
-    (now.getFullYear() - start.getFullYear()) * 12 +
-    now.getMonth() - start.getMonth();
+  let months = (now.getFullYear() - start.getFullYear()) * 12
+    + now.getMonth() - start.getMonth();
+  let anchor = addCalendarMonths(start, months);
 
-  // Use a safe calendar-month calculation for the anniversary date.
-  const anniversary = new Date(start);
-  anniversary.setMonth(start.getMonth() + months);
-  if (anniversary > now) months--;
+  if (anchor > now) {
+    months--;
+    anchor = addCalendarMonths(start, months);
+  }
 
-  const anchor = new Date(start);
-  anchor.setMonth(start.getMonth() + months);
-
-  const elapsedFromAnchor = now - anchor;
-  const days = Math.floor(elapsedFromAnchor / 86400000);
-  const totalMinutes = Math.floor((now - start) / 60000);
-
-  document.querySelector('#months').textContent = months;
-  document.querySelector('#days').textContent = days;
-  document.querySelector('#minutes').textContent = totalMinutes.toLocaleString();
+  monthsEl.textContent = months;
+  daysEl.textContent = Math.floor((now - anchor) / 86400000);
+  minutesEl.textContent = Math.floor((now - anchor) / 60000) % 60;
 }
 
 updateCounter();
