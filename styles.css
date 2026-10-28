@@ -171,34 +171,68 @@ footer{text-align:center;padding:30px;color:#87626c;font-weight:700}
 }
 
 
-/* Blank feature-photo frame: one full mobile viewport, ready for a photo later. */
-.featured-photo-blank {
-  width: min(100%, 1100px);
-  height: min(88svh, 900px);
-  min-height: 560px;
-  margin: 0 auto 54px;
-  border-radius: 30px;
-  background: #fffafa;
-  border: 1px solid #f9dfe5;
-  box-shadow: 0 20px 45px #b9576818;
+/* Full-height blank black photo placeholder */
+.gallery-section {
+  padding-bottom: 70px;
+}
+
+.black-photo {
+  width: min(100%, 560px);
+  height: min(82svh, 900px);
+  min-height: 620px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 28px;
+  box-shadow: 0 22px 54px #6f253522;
   overflow: hidden;
 }
 
-@media (max-width: 850px) {
-  .featured-photo-blank {
-    width: calc(100vw - 28px);
+/* On phones, the black panel fills the full viewport width and height. */
+@media (max-width: 600px) {
+  .gallery-section {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 90px;
+    padding-bottom: 0;
+  }
+
+  .marathi-gallery-title {
+    padding-left: 18px;
+    padding-right: 18px;
+    margin-bottom: 28px !important;
+  }
+
+  .black-photo {
+    width: 100vw;
+    max-width: none;
     height: 100svh;
-    min-height: 0;
-    max-height: 920px;
-    margin: 0 auto 38px;
-    border-radius: 24px;
+    min-height: 100svh;
+    margin-left: calc(50% - 50vw);
+    border-radius: 0;
+    box-shadow: none;
   }
 }
 
-@media (max-width: 480px) {
-  .featured-photo-blank {
-    width: calc(100vw - 20px);
+
+/* FINAL OVERRIDE: force the photo placeholder to render black. */
+#gallery .black-photo {
+  display: block !important;
+  background-color: #000000 !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  width: min(100%, 560px);
+  height: min(82svh, 900px);
+  min-height: 620px;
+  margin: 0 auto;
+  border-radius: 28px;
+}
+@media (max-width: 600px) {
+  #gallery .black-photo {
+    width: 100vw;
+    max-width: none;
     height: 100svh;
-    border-radius: 20px;
+    min-height: 100svh;
+    margin-left: calc(50% - 50vw);
+    border-radius: 0;
   }
 }
