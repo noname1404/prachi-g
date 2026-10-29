@@ -171,23 +171,23 @@ footer{text-align:center;padding:30px;color:#87626c;font-weight:700}
 }
 
 
-/* Full-height blank black photo placeholder */
+/* Featured photo: portrait-sized frame, full-screen on mobile */
 .gallery-section {
   padding-bottom: 70px;
 }
 
-.black-photo {
-  width: min(100%, 560px);
+.featured-photo {
+  display: block;
+  width: min(100%, 900px);
   height: min(82svh, 900px);
-  min-height: 620px;
+  min-height: 500px;
   margin: 0 auto;
-  background: #000;
+  object-fit: cover;
+  object-position: center;
   border-radius: 28px;
   box-shadow: 0 22px 54px #6f253522;
-  overflow: hidden;
 }
 
-/* On phones, the black panel fills the full viewport width and height. */
 @media (max-width: 600px) {
   .gallery-section {
     padding-left: 0;
@@ -202,7 +202,7 @@ footer{text-align:center;padding:30px;color:#87626c;font-weight:700}
     margin-bottom: 28px !important;
   }
 
-  .black-photo {
+  .featured-photo {
     width: 100vw;
     max-width: none;
     height: 100svh;
@@ -210,29 +210,32 @@ footer{text-align:center;padding:30px;color:#87626c;font-weight:700}
     margin-left: calc(50% - 50vw);
     border-radius: 0;
     box-shadow: none;
+    object-fit: cover;
+    object-position: center;
   }
 }
 
 
-/* FINAL OVERRIDE: force the photo placeholder to render black. */
-#gallery .black-photo {
-  display: block !important;
-  background-color: #000000 !important;
-  background-image: none !important;
-  opacity: 1 !important;
-  width: min(100%, 560px);
+/* Keep the original black panel and show the supplied eyes photo beneath it. */
+.black-photo {
+  width: min(100%, 600px);
   height: min(82svh, 900px);
-  min-height: 620px;
-  margin: 0 auto;
+  min-height: 500px;
+  margin: 0 auto 48px;
+  background: #000 !important;
   border-radius: 28px;
+  box-shadow: 0 22px 54px #6f253522;
 }
+
 @media (max-width: 600px) {
-  #gallery .black-photo {
+  .black-photo {
     width: 100vw;
     max-width: none;
     height: 100svh;
     min-height: 100svh;
     margin-left: calc(50% - 50vw);
+    margin-bottom: 36px;
     border-radius: 0;
+    box-shadow: none;
   }
 }
